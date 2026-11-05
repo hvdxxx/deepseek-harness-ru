@@ -68,8 +68,12 @@ $asar = "$env:LOCALAPPDATA\Programs\DeepSeek Harness\resources\app.asar"
 ## Установка
 
 ```powershell
+git clone https://github.com/hvdxxx/deepseek-harness-ru.git
+cd deepseek-harness-ru
 powershell -ExecutionPolicy Bypass -File tools\install.ps1
 ```
+
+Если репозиторий уже склонирован, достаточно последней строки.
 
 Скрипт делает резервные копии `package.json` и `cordis.patch.yml`, ставит пакет командой
 `dsh plugin --profile desktop add file:...` и добавляет в `cordis.patch.yml` запись-вставку:
