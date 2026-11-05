@@ -1,0 +1,11 @@
+# Промежуточные файлы и локальные артефакты
+work/
+*.bak
+*.bak-*
+node_modules/
+*.log
+
+# Системное
+.DS_Store
+Thumbs.db
+desktop.ini

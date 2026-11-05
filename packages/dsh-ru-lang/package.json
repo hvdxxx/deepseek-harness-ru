@@ -1,0 +1,27 @@
+{
+  "name": "dsh-ru-lang",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Русский языковой пакет для веб-интерфейса DeepSeek Harness (ru language pack)",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-locale"
+      ]
+    }
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js"
+  ],
+  "license": "MIT"
+}

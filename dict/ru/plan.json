@@ -1,0 +1,19 @@
+{
+  "chip.exitFailed": "Не удалось выйти из режима плана",
+  "chip.label": "План",
+  "chip.on.aria": "Режим плана включён, нажмите, чтобы выключить",
+  "chip.on.title": "Режим плана включён — нажмите, чтобы выключить (/plan off)",
+  "preview.action": "Открыть",
+  "preview.document": "План · Markdown",
+  "preview.expired": "Срок временного просмотра плана истёк. Откройте его снова из карточки ожидающего рассмотрения.",
+  "preview.failed": "Не удалось загрузить план",
+  "preview.full": "Открыть весь план",
+  "preview.historyUnavailable": "История сессии недоступна",
+  "preview.invalidAddress": "Неверный адрес плана",
+  "preview.loading": "Загрузка плана…",
+  "preview.notFound": "План не найден",
+  "preview.open": "Открыть план на боковой панели",
+  "preview.openNamed": "Открыть план: {title}",
+  "preview.title": "План",
+  "preview.unavailable": "Просмотр плана недоступен"
+}

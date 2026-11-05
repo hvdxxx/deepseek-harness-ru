@@ -1,0 +1,18 @@
+{
+  "delete.action": "Удалить",
+  "delete.label": "Удалить напоминание: {title}",
+  "delete.pending": "Удаление…",
+  "frequency.every": "Каждые {value} {unit}",
+  "frequency.once": "Один раз",
+  "hover.more": "Ещё {count}",
+  "list.aria": "Активные напоминания",
+  "list.error": "Не удалось загрузить напоминания.",
+  "list.loading": "Загрузка напоминаний…",
+  "list.nextRun": "Следующий запуск",
+  "list.open": "Открыть подробности напоминания: {title}",
+  "list.retry": "Повторить",
+  "mark.aria": "{count} запланированных задач",
+  "trigger.label": "Напоминания",
+  "trigger.one": "{count} напоминание",
+  "trigger.other": "{count} напоминаний"
+}
