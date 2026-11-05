@@ -1,8 +1,13 @@
 # Русификация DeepSeek Harness
 
+[![DeepSeek Harness](https://img.shields.io/badge/%D0%B4%D0%BB%D1%8F-DeepSeek%20Harness-4d6bfe)](https://github.com/deepseek-ai/deepseek-harness)
+[![DSH plugin](https://img.shields.io/badge/DSH-plugin-7c4dff)](https://github.com/deepseek-ai/deepseek-harness)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
 Русский языковой пакет для веб-интерфейса DSH, собранный как **штатный плагин**, а не как патч
-приложения. Установленный `app.asar` не меняется: пакет ставится в профиль
-`%USERPROFILE%\.dsh\profiles\desktop` и отключается одной строкой.
+приложения. Установленный `app.asar` не меняется: пакет объявляет `dsh.bundle`, поэтому
+`dsh plugin add` сам подключает его к профилю
+(`%USERPROFILE%\.dsh\profiles\desktop`) — без ручной правки конфигурации.
 
 ## Как это устроено
 
@@ -24,15 +29,19 @@ ctx.effect(() => ctx.locale.register('namespace', 'ru', { key: 'текст' }))
 ```
 dsh-ru/
 ├── dict/ru/               словари по пространствам имён (источник истины, значения — русский текст)
+├── market/                индекс каталога плагинов DSH (index.json + icon.svg)
 ├── packages/dsh-ru-lang/  сам плагин
-│   ├── package.json       объявление dsh.client (platform: web, inject: locale)
+│   ├── package.json       dsh.bundle (слой профиля) + dsh.client (platform: web, inject: locale)
+│   ├── cordis.patch.yml   bundle-патч: вставляет запись плагина в дерево Loader
 │   └── lib/
 │       ├── index.js       хост-часть (пустая: вся работа в браузере)
 │       └── client.js      СБОРКА: словари + регистрация языка (генерируется)
 └── tools/
     ├── gen-corpus.js      извлекает английские словари из установленного app.asar
     ├── build-plugin.js    собирает lib/client.js из dict/ru
+    ├── validate.js        сверяет переводы с английским корпусом (ключи, плейсхолдеры, пробелы)
     ├── test-plugin.js     офлайн-проверка регистрации, фолбэка и выключения
+    ├── gen-market-index.js пересобирает market/index.json под текущий коммит
     ├── install.ps1        установка в профиль desktop (с резервными копиями)
     └── uninstall.ps1      откат
 ```
@@ -75,19 +84,23 @@ powershell -ExecutionPolicy Bypass -File tools\install.ps1
 
 Если репозиторий уже склонирован, достаточно последней строки.
 
-Скрипт делает резервные копии `package.json` и `cordis.patch.yml`, ставит пакет командой
-`dsh plugin --profile desktop add file:...` и добавляет в `cordis.patch.yml` запись-вставку:
+Скрипт делает резервные копии `package.json` и `cordis.patch.yml` и ставит пакет командой
+`dsh plugin --profile desktop add file:...`. Дальше всё делает сам пакет:
+
+- `package.json` объявляет `dsh.bundle.patch`, поэтому `dsh plugin add` добавляет `dsh-ru-lang`
+  в `dsh.profile.bundles` профиля;
+- `packages/dsh-ru-lang/cordis.patch.yml` вставляет запись плагина в дерево Loader:
 
 ```yaml
-# >>> dsh-ru-lang
 - insert:
     - id: ru-lang
       name: dsh-ru-lang
 ```
 
-`- id: ru-lang` на верхнем уровне патча означает *правку существующей* записи — loader
-отвечает `patch: entry "ru-lang" not found`, и плагин молча не появляется. Новые плагины
-добавляются только вложенным списком `insert:`.
+Ручная правка `%USERPROFILE%\.dsh\profiles\desktop\cordis.patch.yml` не нужна. Если запись
+добавить в патч плоским `- id: ru-lang` (без `insert:`), loader ответит
+`patch: entry "ru-lang" not found` и плагин молча не появится — это ошибка старой схемы,
+`install.ps1` теперь её вычищает.
 
 После этого **один раз перезапустите DeepSeek Harness** и выберите язык:
 Settings → General → Language → «Русский».
@@ -97,6 +110,30 @@ Settings → General → Language → «Русский».
 ```powershell
 powershell -ExecutionPolicy Bypass -File tools\uninstall.ps1
 ```
+
+## Каталог плагинов DSH
+
+Пакет можно поставить как из каталога плагинов внутри DSH, не клонируя репозиторий. В
+`market/index.json` лежит индекс формата 1 (его проверяет `@deepseek-ai/dsh-plugin-market-index`),
+который пинит точный коммит и каталог пакета:
+
+1. Settings → Plugins → каталог плагинов → добавьте индекс
+   `https://raw.githubusercontent.com/hvdxxx/deepseek-harness-ru/main/market/index.json`;
+2. в списке появится «Русский язык» → установить;
+3. перезапустить DSH и выбрать язык в Settings → General → Language.
+
+Индекс пересобирается командой `node tools/gen-market-index.js .` после каждого релиза: он
+всегда указывает на конкретный коммит, поэтому обновления не подхватываются сами.
+
+## Как найти проект
+
+- GitHub: темы `dsh-plugin`, `deepseek-harness`, `localization` — поиск по ним находит репозиторий.
+- Внутри DSH — через индекс маркета выше.
+- В сообществе DSH — категория
+  [Show Your Plugins!](https://github.com/deepseek-ai/deepseek-harness/discussions/categories/show-your-plugins)
+  (у upstream отключены issues и pull requests, поэтому обсуждения — единственный канал).
+- `package.json` содержит `repository`, `homepage` и `keywords`, поэтому npm-страница (если
+  пакет когда-нибудь опубликуют) и локальные инструменты связывают пакет с этим репозиторием.
 
 ## Что переведено
 
@@ -144,8 +181,16 @@ Copy-Item $src $dst -Recurse
 ## Обновление после пересборки
 
 `node_modules\dsh-ru-lang` в профиле — копия пакета (pnpm hard-link). После `build-plugin.js`
-перезапустите `tools\install.ps1`: он идемпотентно переустановит пакет и не будет дублировать
-запись в `cordis.patch.yml`. Затем перезапустите приложение.
+перезапустите `tools\install.ps1`. Если pnpm ответит `Already up to date` (метаданные пакета
+изменились, путь — нет), переустановите явно:
+
+```powershell
+$cli = "$env:LOCALAPPDATA\Programs\DeepSeek Harness\resources\runtime\cli\bin\dsh.cmd"
+& $cli plugin --profile desktop remove dsh-ru-lang
+& $cli plugin --profile desktop add "file:$PWD\packages\dsh-ru-lang"
+```
+
+Затем перезапустите приложение.
 
 ## Ограничения
 

@@ -1,0 +1,92 @@
+{
+  "format": 1,
+  "title": {
+    "en": "DSH Russian language pack",
+    "ru": "Русский языковой пакет DSH"
+  },
+  "description": {
+    "en": "Russian localization of the DeepSeek Harness web GUI, installed as an ordinary DSH bundle.",
+    "ru": "Русификация веб-интерфейса DeepSeek Harness, ставится как обычный bundle DSH."
+  },
+  "metadata": {
+    "categories": {
+      "localization": {
+        "title": {
+          "en": "Localization",
+          "ru": "Локализация"
+        }
+      }
+    },
+    "labels": {
+      "community": {
+        "title": {
+          "en": "Community",
+          "ru": "Сообщество"
+        }
+      }
+    },
+    "sortKeys": {
+      "coverage": {
+        "title": {
+          "en": "Translated strings",
+          "ru": "Переведено строк"
+        },
+        "order": "desc"
+      }
+    }
+  },
+  "plugins": [
+    {
+      "name": "dsh-ru-lang",
+      "title": {
+        "en": "Russian language pack",
+        "ru": "Русский язык"
+      },
+      "description": {
+        "en": "Adds the `ru` locale to Settings → General → Language: 63 namespaces, 2660 of 2725 UI strings. Untranslated keys fall back to English.",
+        "ru": "Добавляет локаль `ru` в Settings → General → Language: 63 пространства имён, 2660 из 2725 строк. Непереведённые ключи берутся из английского словаря."
+      },
+      "icon": "icon.svg",
+      "author": "Afanasy",
+      "homepage": "https://github.com/hvdxxx/deepseek-harness-ru",
+      "repository": {
+        "url": "https://github.com/hvdxxx/deepseek-harness-ru",
+        "directory": "packages/dsh-ru-lang"
+      },
+      "metadata": {
+        "category": "localization",
+        "labels": [
+          "community"
+        ],
+        "keywords": [
+          "russian",
+          "ru",
+          "language pack",
+          "localization",
+          "i18n"
+        ],
+        "sortKeys": {
+          "coverage": 2660
+        }
+      },
+      "dist-tags": {
+        "latest": "0.1.0"
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1793883098,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/hvdxxx/deepseek-harness-ru",
+            "commit": "cfd3c83cc43099012cdb775bfa2d263879d7ecdb",
+            "path": "packages/dsh-ru-lang"
+          },
+          "engines": {
+            "dsh": ">=0.2.1-rc.5"
+          }
+        }
+      ]
+    }
+  ]
+}
