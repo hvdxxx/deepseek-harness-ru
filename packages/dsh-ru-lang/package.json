@@ -8,9 +8,42 @@
   "exports": {
     ".": "./lib/index.js",
     "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
     "./package.json": "./package.json"
   },
+  "files": [
+    "cordis.patch.yml",
+    "lib/index.js",
+    "lib/client.js"
+  ],
+  "license": "MIT",
+  "author": "Afanasy (https://github.com/hvdxxx)",
+  "homepage": "https://github.com/hvdxxx/deepseek-harness-ru",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hvdxxx/deepseek-harness-ru.git",
+    "directory": "packages/dsh-ru-lang"
+  },
+  "bugs": {
+    "url": "https://github.com/hvdxxx/deepseek-harness-ru/issues"
+  },
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "dsh",
+    "localization",
+    "russian",
+    "i18n"
+  ],
+  "engines": {
+    "dsh": ">=0.2.1-rc.5"
+  },
   "dsh": {
+    "bundle": {
+      "patch": [
+        "./cordis.patch.yml"
+      ]
+    },
     "client": {
       "platform": "web",
       "immediately": true,
@@ -18,10 +51,5 @@
         "@deepseek-ai/dsh-client-locale"
       ]
     }
-  },
-  "files": [
-    "lib/index.js",
-    "lib/client.js"
-  ],
-  "license": "MIT"
+  }
 }
